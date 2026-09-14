@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacHinge — MacBook Lid-Driven Display Folding Transition</title>
+  <meta name="description" content="A macOS utility that connects your MacBook display to its physical hinge. Powered by Apple SPU HID sensors and real-time Apple Metal shaders.">
+  <meta name="theme-color" content="#050507">
+  
+  <link rel="icon" type="image/png" href="assets/icon/AppIcon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-brand" aria-label="MacHinge Home">
+        <img src="assets/icon/AppIcon.png" alt="MacHinge Logo" class="nav-logo-icon" width="28" height="28">
+        <span class="nav-title">MacHinge</span>
+        <span class="nav-version-pill">v0.1.0 Beta</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#settings">Settings</a></li>
+          <li><a href="#effects">Effects</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#hotkeys">Hotkeys</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/santhoshsunkara24/MacHinge" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-nav-cta" aria-label="View MacHinge on GitHub">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="#download" class="btn btn-primary btn-nav-cta">Download</a>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-menu" aria-label="Mobile Navigation">
+    <a href="#features">Features</a>
+    <a href="#settings">Settings</a>
+    <a href="#effects">Effects</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#hotkeys">Hotkeys</a>
+    <a href="https://github.com/santhoshsunkara24/MacHinge" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+    <a href="#download" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Download Beta</a>
+  </div>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-badge-wrap animate-on-scroll">
+          <span class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            A macOS utility for expressive lid animations
+          </span>
+        </div>
+
+        <h1 class="hero-headline animate-on-scroll delay-1">
+          Your MacBook has a hinge.<br>
+          MacHinge gives it an effect.
+        </h1>
+
+        <p class="hero-subhead animate-on-scroll delay-2">
+          Turn your MacBook’s lid movement into a visual experience. MacHinge reacts to the physical hinge angle in real time and transforms it into fluid, GPU-accelerated screen transitions.
+        </p>
+
+        <div class="hero-cta-group animate-on-scroll delay-3">
+          <a href="#download" class="btn btn-primary">
+            <span>Download MacHinge</span>
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+              <path d="M8 12l-4-4h2.5V2h3v6H12L8 12z"/>
+              <path d="M2 13h12v1H2z"/>
+            </svg>
+          </a>
+          <a href="#effects" class="btn btn-secondary">
+            <span>View Effects</span>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+              <path d="M8 11.5l-5-5 1.4-1.4L8 8.7l3.6-3.6L13 6.5l-5 5z"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-compat-tag animate-on-scroll delay-3">
+          <span>Built for Apple Silicon (M1–M5)</span>
+          <span>•</span>
+          <span>macOS 14.0+ Sonoma</span>
+          <span>•</span>
+          <span>IOKit HID &amp; Metal Shaders</span>
+        </div>
+
+        <!-- Interactive MacBook Simulation Canvas -->
+        <div class="hero-simulation-wrap animate-on-scroll">
+          <div class="sim-header-bar">
+            <div id="hero-status-badge" class="sim-status-badge state-idle">
+              <span class="badge-dot dot-idle"></span>
+              <span class="badge-text">Normal Viewing Range • 100% Crisp Passthrough (0% GPU)</span>
+            </div>
+
+            <div class="sim-effect-tabs" role="tablist" aria-label="Simulation Effect Selector">
+              <button class="hero-effect-tab is-active" data-effect="luminous-glow" role="tab">Luminous Glow</button>
+              <button class="hero-effect-tab" data-effect="frosted-glass" role="tab">Frosted Glass</button>
+              <button class="hero-effect-tab" data-effect="magnetic-lens" role="tab">Magnetic Lens</button>
+            </div>
+          </div>
+
+          <!-- MacBook Hardware Chassis Visual -->
+          <div class="macbook-chassis">
+            <div class="macbook-lid">
+              <div class="macbook-webcam"></div>
+              
+              <div class="macbook-screen" id="sim-screen">
+                <div class="screen-desktop-ui" id="sim-display">
+                  <div class="sim-menu-bar">
+                    <div class="sim-menu-left">
+                      <span class="sim-apple-logo"></span>
+                      <span>Finder</span>
+                      <span>File</span>
+                      <span>Edit</span>
+                      <span>View</span>
+                    </div>
+                    <div class="sim-menu-right">
+                      <span class="sim-hinge-icon">∠</span>
+                      <span>100%</span>
+                      <span>Mon 9:41 AM</span>
+                    </div>
+                  </div>
+
+                  <div class="sim-desktop-content">
+                    <div class="sim-app-window">
+                      <div class="sim-app-title">MacHinge Ready</div>
+                      <div class="sim-app-sub">Reading physical hinge angle at 60 Hz</div>
+                    </div>
+                  </div>
+
+                  <div style="font-size: 9px; color: rgba(255,255,255,0.4); text-align: right; padding-right: 4px;">
+                    Retina Display
+                  </div>
+                </div>
+
+                <!-- 3D Shader Deformation Layer -->
+                <div class="sim-mesh-layer" id="sim-mesh"></div>
+              </div>
+            </div>
+
+            <div class="macbook-hinge-bar"></div>
+            <div class="macbook-base">
+              <div class="macbook-notch"></div>
+            </div>
+          </div>
+
+          <!-- Interactive Hinge Angle Slider -->
+          <div class="sim-controls-panel">
+            <div class="sim-slider-row">
+              <label for="hero-angle-slider" class="sim-slider-label">Simulate Hinge Angle</label>
+              <input 
+                type="range" 
+                id="hero-angle-slider" 
+                class="sim-range-input" 
+                min="25" 
+                max="115" 
+                step="0.5" 
+                value="105" 
+                aria-label="MacBook Hinge Angle Slider">
+              <div class="sim-angle-readout" id="hero-angle-value">105.0°</div>
+            </div>
+
+            <div class="sim-presets-row">
+              <div class="sim-presets-title">Quick Angle Presets:</div>
+              <div class="sim-presets-btns">
+                <button class="hero-preset-btn is-active" data-angle="105">105° Normal</button>
+                <button class="hero-preset-btn" data-angle="78">78° Trigger</button>
+                <button class="hero-preset-btn" data-angle="55">55° Mid-Fold</button>
+                <button class="hero-preset-btn" data-angle="25">25° Endpoint</button>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 14px; font-size: 0.75rem; color: var(--text-tertiary); font-family: var(--font-mono);">
+            * Interactive Website Simulation • Move slider below 78° to preview shader reaction
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Concept Section -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">Physical Interaction</span>
+          <h2 class="section-title">A new way to interact with your MacBook.</h2>
+          <p class="section-subtitle">
+            MacHinge connects the physical mechanics of your laptop to its graphics pipeline, mapping lid movement to on-screen visual behavior.
+          </p>
+        </div>
+
+        <div class="concept-grid">
+          <div class="concept-card animate-on-scroll delay-1">
+            <div class="concept-step-badge">1</div>
+            <h3 class="concept-title">Move the Lid</h3>
+            <p class="concept-desc">
+              Open or close your MacBook naturally. The physical hinge angle changes continuously as your hands guide the display.
+            </p>
+          </div>
+
+          <div class="concept-card animate-on-scroll delay-2">
+            <div class="concept-step-badge">2</div>
+            <h3 class="concept-title">SPU Reads the Angle</h3>
+            <p class="concept-desc">
+              MacHinge queries the Apple Sensor Processing Unit (SPU) via IOKit HID services, receiving angle reports at 50–60 Hz with 0.01° precision.
+            </p>
+          </div>
+
+          <div class="concept-card animate-on-scroll delay-3">
+            <div class="concept-step-badge">3</div>
+            <h3 class="concept-title">Metal Shaders Respond</h3>
+            <p class="concept-desc">
+              The angle is converted to animation progress, driving real-time 3D perspective folding, glass diffusion, or progressive radiance via Metal shaders.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Walkthrough Section -->
+    <section class="section" id="settings">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">Precise Control</span>
+          <h2 class="section-title">Make it behave exactly how you want.</h2>
+          <p class="section-subtitle">
+            Every setting shown below is captured directly from the real MacHinge application running on macOS.
+          </p>
+        </div>
+
+        <div class="settings-walkthrough">
+          
+          <!-- Row 1: Preferred Viewing Angle -->
+          <div class="setting-feature-row animate-on-scroll">
+            <div class="setting-info-col">
+              <span class="setting-group-tag">General • Trigger Architecture</span>
+              <h3 class="setting-title">Preferred Viewing Angle</h3>
+              <p class="setting-desc">
+                Your screen stays 100% normal, sharp, and untouched across your entire ergonomic viewing range (80° to 120°+). The folding animation initiates only when the lid passes below the closing threshold.
+              </p>
+              <ul class="setting-callout-list">
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>5 Ergonomic Presets:</strong> 80° Standard, 90° Upright, 100° Balanced, 105° Comfortable, 110° More Open.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Custom Sensor Calibration:</strong> Set your own physical viewing angle with one click.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Live Angle Badge:</strong> Real-time hardware angle readout updated directly from the SPU sensor.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="setting-screenshot-frame">
+              <img 
+                src="assets/screenshots/settings-general.png" 
+                alt="MacHinge Settings window showing Preferred Viewing Angle configuration and live lid sensor angle readout" 
+                class="setting-screenshot-img" 
+                loading="lazy">
+            </div>
+          </div>
+
+          <!-- Row 2: Global Shortcut -->
+          <div class="setting-feature-row layout-reversed animate-on-scroll">
+            <div class="setting-info-col">
+              <span class="setting-group-tag">Global Shortcut</span>
+              <h3 class="setting-title">Calibrate Without Opening Settings</h3>
+              <p class="setting-desc">
+                Calibrate and save your preferred physical lid angle instantly from anywhere with a system-wide global shortcut. MacHinge registers native Carbon hotkeys with zero accessibility permission requirements.
+              </p>
+              <ul class="setting-callout-list">
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Default Hotkey:</strong> <code>⌥⌘S</code> (Option + Command + S).</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Built-in Presets:</strong> Quick selection for <code>⌥⌘S</code>, <code>⌃⌥⌘S</code>, and <code>⇧⌘S</code>.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Key Recording:</strong> Assign your own custom combination with modifier validation.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>On-Screen Pill Toast:</strong> Visual confirmation pill HUD appears whenever the hotkey is pressed.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="setting-screenshot-frame">
+              <img 
+                src="assets/screenshots/settings-hotkeys.png" 
+                alt="MacHinge Settings window showing Global Shortcut calibration configuration" 
+                class="setting-screenshot-img" 
+                loading="lazy">
+            </div>
+          </div>
+
+          <!-- Row 3: Effect Tuning -->
+          <div class="setting-feature-row animate-on-scroll">
+            <div class="setting-info-col">
+              <span class="setting-group-tag">Effect Physics</span>
+              <h3 class="setting-title">Visual Style &amp; Shader Physics</h3>
+              <p class="setting-desc">
+                Fine-tune the visual dynamics of the folding mesh to match your taste. Choose between multiple distinct shader algorithms and calibrate response curves.
+              </p>
+              <ul class="setting-callout-list">
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Visual Style Picker:</strong> Toggle between Luminous Glow, Frosted Glass, and Magnetic Lens.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Glow Radiance:</strong> Adjust bloom intensity from 20% to 200%.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Animation Intensity:</strong> Calibrate fold depth from 50% to 150%.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Transition Curves:</strong> Smoothstep (S-Curve), Ease-In-Out Sine, Natural Ease (Power 1.4), or Linear.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="setting-screenshot-frame">
+              <img 
+                src="assets/screenshots/settings-effects.png" 
+                alt="MacHinge Settings window showing Effect Style, Glow Radiance, and Animation Intensity sliders" 
+                class="setting-screenshot-img" 
+                loading="lazy">
+            </div>
+          </div>
+
+          <!-- Row 4: Appearance & Privacy -->
+          <div class="setting-feature-row layout-reversed animate-on-scroll">
+            <div class="setting-info-col">
+              <span class="setting-group-tag">Appearance &amp; Privacy</span>
+              <h3 class="setting-title">100% On-Device Processing</h3>
+              <p class="setting-desc">
+                MacHinge uses macOS ScreenCaptureKit solely to project the desktop image into an in-memory Apple Metal GPU texture for real-time shaders. No pixels are ever saved to disk or transmitted.
+              </p>
+              <ul class="setting-callout-list">
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Theme Mode:</strong> Match macOS System appearance automatically, or lock into Light or Dark mode.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Zero Disk Storage:</strong> Captured textures exist solely in volatile GPU memory during active motion.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Zero Network Telemetry:</strong> No analytics SDKs, trackers, or remote telemetry.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="setting-screenshot-frame">
+              <img 
+                src="assets/screenshots/settings-appearance-privacy.png" 
+                alt="MacHinge Settings window showing Theme Mode and Screen Recording privacy status" 
+                class="setting-screenshot-img" 
+                loading="lazy">
+            </div>
+          </div>
+
+          <!-- Row 5: About & Architecture -->
+          <div class="setting-feature-row animate-on-scroll">
+            <div class="setting-info-col">
+              <span class="setting-group-tag">About &amp; Advanced Options</span>
+              <h3 class="setting-title">Built for Apple Silicon</h3>
+              <p class="setting-desc">
+                Engineered from the ground up for modern MacBook architectures. Runs quietly in the menu bar without occupying Dock space.
+              </p>
+              <ul class="setting-callout-list">
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Native Version:</strong> MacHinge 0.1.0 (Build 1).</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Apple Silicon Architecture:</strong> Native ARM64 optimization for M1, M2, M3, M4, and M5 MacBooks.</span>
+                </li>
+                <li class="setting-callout-item">
+                  <span class="setting-callout-icon">✓</span>
+                  <span><strong>Sensor Interface:</strong> Apple SPU HID Lid Angle Sensor (0x05AC / 0x008A).</span>
+                </li>
+              </ul>
+            </div>
+            <div class="setting-screenshot-frame">
+              <img 
+                src="assets/screenshots/settings-about.png" 
+                alt="MacHinge Settings window showing About &amp; Advanced Options details" 
+                class="setting-screenshot-img" 
+                loading="lazy">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Effects Showcase Section -->
+    <section class="section" id="effects">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">Visual Effects</span>
+          <h2 class="section-title">Choose your visual language.</h2>
+          <p class="section-subtitle">
+            MacHinge includes three distinct GPU-accelerated visual styles that react continuously to physical lid movements.
+          </p>
+        </div>
+
+        <!-- Dynamic Container Populated via effects-data.js -->
+        <div class="effects-container" id="effects-list-container"></div>
+      </div>
+    </section>
+
+    <!-- How It Works / Engineering Architecture Section -->
+    <section class="section" id="architecture">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">Engineering</span>
+          <h2 class="section-title">Built around the hinge.</h2>
+          <p class="section-subtitle">
+            A high-performance pipeline connecting physical hardware sensors directly to Metal GPU shaders.
+          </p>
+        </div>
+
+        <!-- High-res Architecture SVG Diagram -->
+        <div class="diagram-wrap animate-on-scroll">
+          <img 
+            src="assets/diagrams/pipeline-architecture.svg" 
+            alt="MacHinge Architecture Pipeline: MacBook Hinge to Apple SPU HID, Decoupled Trigger, ScreenCaptureKit, Metal Shaders, and Screen Overlay" 
+            class="diagram-img" 
+            loading="lazy">
+        </div>
+
+        <div class="architecture-grid">
+          <div class="arch-card animate-on-scroll delay-1">
+            <h4>Apple SPU HID Integration</h4>
+            <p>
+              Queries physical lid angle reports directly from the Apple Sensor Processing Unit using I/O Kit HID services (Usage 0x008A). Samples at 50–60 Hz during motion with 0.01° resolution.
+            </p>
+          </div>
+
+          <div class="arch-card animate-on-scroll delay-2">
+            <h4>Decoupled Trigger &amp; 0% GPU Idle</h4>
+            <p>
+              When stationary at normal viewing angles (> 78°), active Metal rendering and screen capture pause automatically, resulting in zero rendering overhead during daily work.
+            </p>
+          </div>
+
+          <div class="arch-card animate-on-scroll delay-3">
+            <h4>Metal-Accelerated 3D Shaders</h4>
+            <p>
+              Custom fragment shaders calculate real-time 3D perspective foreshortening, cylindrical fold curves, Poisson glass diffusion, and velocity-coupled bloom directly in local GPU memory.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hotkeys Section -->
+    <section class="section" id="hotkeys">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">Keyboard Shortcuts</span>
+          <h2 class="section-title">Control MacHinge without opening settings.</h2>
+          <p class="section-subtitle">
+            Calibrate your anchor viewing angle instantly from anywhere with a system-wide hotkey.
+          </p>
+        </div>
+
+        <div class="hotkeys-layout">
+          <!-- Keyboard Key Visual Card -->
+          <div class="hotkey-keys-card animate-on-scroll">
+            <div class="key-combo-display">
+              <div class="kbd-key">⌥</div>
+              <div class="kbd-key">⌘</div>
+              <div class="kbd-key">S</div>
+            </div>
+
+            <div class="kbd-action-title">Calibrate Current Viewing Angle</div>
+            <div class="kbd-action-desc">Saves your current physical lid angle as the anchor position.</div>
+
+            <div class="kbd-interactive-bar">
+              <button id="test-hotkey-btn" class="btn btn-secondary">
+                <span>Test Hotkey (⌥⌘S)</span>
+              </button>
+            </div>
+
+            <div class="kbd-presets-list">
+              <span>Available Presets:</span>
+              <span class="kbd-preset-tag">⌥⌘S (Default)</span>
+              <span class="kbd-preset-tag">⌃⌥⌘S</span>
+              <span class="kbd-preset-tag">⇧⌘S</span>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Instructions -->
+          <div class="hotkey-steps-col animate-on-scroll delay-1">
+            <ul class="hotkey-steps-list">
+              <li class="hotkey-step-item">
+                <div class="hotkey-step-num">1</div>
+                <div class="hotkey-step-content">
+                  <h5>Launch MacHinge</h5>
+                  <p>MacHinge runs quietly in your macOS menu bar (<code>∠</code>) without cluttering the Dock.</p>
+                </div>
+              </li>
+              <li class="hotkey-step-item">
+                <div class="hotkey-step-num">2</div>
+                <div class="hotkey-step-content">
+                  <h5>Adjust to Your Preferred Angle</h5>
+                  <p>Move your MacBook screen to whichever ergonomic position is most comfortable for your workspace.</p>
+                </div>
+              </li>
+              <li class="hotkey-step-item">
+                <div class="hotkey-step-num">3</div>
+                <div class="hotkey-step-content">
+                  <h5>Press <code>⌥⌘S</code> to Calibrate</h5>
+                  <p>A subtle on-screen pill HUD confirms your angle has been saved as the new normal anchor.</p>
+                </div>
+              </li>
+              <li class="hotkey-step-item">
+                <div class="hotkey-step-num">4</div>
+                <div class="hotkey-step-content">
+                  <h5>Close the Lid to Trigger</h5>
+                  <p>As the lid moves past the closing threshold, your selected Metal effect responds in physical sync.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing Download CTA Section -->
+    <section class="section" id="download">
+      <div class="container">
+        <div class="closing-cta-card animate-on-scroll">
+          <h2 class="closing-headline">Make your MacBook move differently.</h2>
+          <p class="closing-subhead">
+            Explore the effects, configure your preferences, and experience MacHinge on macOS.
+          </p>
+
+          <div class="closing-cta-group">
+            <a href="https://github.com/santhoshsunkara24/MacHinge/releases" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                <path d="M8 12l-4-4h2.5V2h3v6H12L8 12z"/>
+                <path d="M2 13h12v1H2z"/>
+              </svg>
+              <span>Download MacHinge (v0.1.0-beta)</span>
+            </a>
+            <a href="https://github.com/santhoshsunkara24/MacHinge" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+              </svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+
+          <div class="closing-specs-tags">
+            <span>macOS 14.0+ Sonoma</span>
+            <span>•</span>
+            <span>Apple Silicon M1/M2/M3/M4</span>
+            <span>•</span>
+            <span>Built-in Retina Display</span>
+            <span>•</span>
+            <span>MIT License</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive Calibration HUD Simulation Toast -->
+  <div id="calibration-hud" class="toast-hud-preview" role="status" aria-live="polite">
+    <span class="hud-check-icon">✓</span>
+    <span class="hud-text">Preferred Angle Saved: <span id="hud-calibrated-angle" class="hud-angle-val">80.0°</span></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="footer-brand">
+            <img src="assets/icon/AppIcon.png" alt="MacHinge" width="22" height="22">
+            <span>MacHinge</span>
+          </div>
+          <p class="footer-brand-desc">
+            Physical MacBook lid-driven display folding transition for Apple Silicon.
+          </p>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-links-group">
+            <span class="footer-group-title">Navigation</span>
+            <a href="#features">Features</a>
+            <a href="#settings">Settings</a>
+            <a href="#effects">Effects</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#hotkeys">Hotkeys</a>
+          </div>
+
+          <div class="footer-links-group">
+            <span class="footer-group-title">Project</span>
+            <a href="https://github.com/santhoshsunkara24/MacHinge" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+            <a href="https://github.com/santhoshsunkara24/MacHinge/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Changelog</a>
+            <a href="https://github.com/santhoshsunkara24/MacHinge/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>MacHinge is open source software released under the MIT License.</div>
+        <div>Engineered for Apple Silicon MacBooks.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
