@@ -38,6 +38,7 @@ Release/MacHinge.app/
 *.zip
 !Release/*.dmg
 !Release/*.zip
+!website/downloads/*.dmg
 
 # Secrets & Credentials
 .env
@@ -49,3 +50,4 @@ Release/MacHinge.app/
 *.pem
 *.provisionprofile
 *.mobileprovision
+.vercel
