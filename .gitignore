@@ -24,6 +24,7 @@ xcuserdata/
 # Local Debug Scripts & Scratch Files
 debug_pipeline.swift
 test_live_app.swift
+scratch/
 *.log
 
 # Media & Screen Recordings

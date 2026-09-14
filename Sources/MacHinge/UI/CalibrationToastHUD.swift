@@ -18,32 +18,37 @@ public final class CalibrationToastHUD {
             window = nil
         }
 
-        let width: CGFloat = 390
-        let height: CGFloat = 68
+        let cardWidth: CGFloat = 390
+        let cardHeight: CGFloat = 64
+        let padding: CGFloat = 20
+        let windowWidth: CGFloat = cardWidth + (padding * 2)
+        let windowHeight: CGFloat = cardHeight + (padding * 2)
 
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: width, height: height),
-            styleMask: [.nonactivatingPanel, .fullSizeContentView],
+            contentRect: NSRect(x: 0, y: 0, width: windowWidth, height: windowHeight),
+            styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
         panel.isOpaque = false
         panel.backgroundColor = .clear
-        panel.hasShadow = true
+        panel.hasShadow = false
         panel.level = .floating
         panel.ignoresMouseEvents = true
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         self.window = panel
 
-        let contentView = ToastContentView(angle: angle)
-        panel.contentView = NSHostingView(rootView: contentView)
+        let contentView = ToastContentView(angle: angle, cardWidth: cardWidth, cardHeight: cardHeight)
+        let hostingView = NSHostingView(rootView: contentView)
+        hostingView.layer?.backgroundColor = NSColor.clear.cgColor
+        panel.contentView = hostingView
 
         // Position at top center of main screen (just below menu bar / notch)
         if let screen = NSScreen.main {
             let screenFrame = screen.visibleFrame
-            let x = screenFrame.midX - (width / 2.0)
-            let y = screenFrame.maxY - 80
-            panel.setFrame(NSRect(x: x, y: y, width: width, height: height), display: true)
+            let x = screenFrame.midX - (windowWidth / 2.0)
+            let y = screenFrame.maxY - windowHeight - 12
+            panel.setFrame(NSRect(x: x, y: y, width: windowWidth, height: windowHeight), display: true)
         }
 
         panel.alphaValue = 0.0
@@ -75,6 +80,8 @@ public final class CalibrationToastHUD {
 
 private struct ToastContentView: View {
     let angle: Double
+    let cardWidth: CGFloat
+    let cardHeight: CGFloat
 
     var body: some View {
         HStack(spacing: 12) {
@@ -116,28 +123,41 @@ private struct ToastContentView: View {
             .clipShape(Capsule())
             .overlay(
                 Capsule()
-                    .stroke(Color.green.opacity(0.3), lineWidth: 0.8)
+                    .strokeBorder(Color.green.opacity(0.3), lineWidth: 0.8)
             )
             .layoutPriority(2)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .frame(width: 390, height: 68)
+        .frame(width: cardWidth, height: cardHeight)
         .background(
             ZStack {
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(.regularMaterial)
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(.ultraThinMaterial)
 
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(Color(NSColor.windowBackgroundColor).opacity(0.7))
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(Color(NSColor.windowBackgroundColor).opacity(0.75))
             }
         )
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(Color(NSColor.separatorColor).opacity(0.3), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.22),
+                            Color.white.opacity(0.06),
+                            Color.white.opacity(0.12)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
         )
-        .shadow(color: Color.black.opacity(0.18), radius: 12, x: 0, y: 6)
+        .shadow(color: Color.black.opacity(0.25), radius: 14, x: 0, y: 7)
+        .shadow(color: Color.black.opacity(0.10), radius: 3, x: 0, y: 1)
+        .padding(20)
     }
 
     @ViewBuilder

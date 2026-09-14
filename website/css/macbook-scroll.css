@@ -1,0 +1,493 @@
+/* ==========================================================================
+   MacHinge — 3D MacBook Perspective & Scroll-Driven Lid Physics
+   ========================================================================== */
+
+.scroll-effect-section {
+  position: relative;
+  height: 180vh; /* Scroll track giving smooth, controlled fold travel */
+  margin: 0;
+  padding: 0;
+  scroll-margin-top: 70px;
+}
+
+.effect-sticky-wrapper {
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.2vh, 24px);
+  padding: clamp(36px, 5.5vh, 60px) 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+/* Section Header */
+.effect-header {
+  text-align: center;
+  max-width: 660px;
+  margin: 0;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.effect-title {
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: #111111;
+  margin: 0 0 10px;
+}
+
+.effect-subtitle {
+  font-size: clamp(0.925rem, 1.25vw, 1.05rem);
+  color: #6E6E73;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+  margin: 0 auto;
+  max-width: 580px;
+}
+
+/* ==========================================================================
+   MacBook Mockup 3D Structure — Sleek Clamshell Architecture
+   Matches authentic Apple product render (revamp_glow_open.png)
+   ========================================================================== */
+
+.macbook-stage-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: min(720px, 88vw, calc((100vh - 290px) * 1.45));
+  margin: 0 auto;
+  perspective: 1800px;
+  perspective-origin: 50% 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  flex-shrink: 1;
+}
+
+.macbook-device {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+/* 
+   MacBook Lid:
+   Outer Anodized Aluminum Display Shell.
+   Pivots forward & closes in front around bottom hinge on scroll down.
+   Raises open on scroll up.
+*/
+.macbook-lid {
+  position: relative;
+  width: 94%;
+  aspect-ratio: 16 / 10.3;
+  height: auto;
+  background: #0D0D10;
+  border-radius: 20px 20px 2px 2px;
+  padding: 10px 10px 12px 10px;
+  box-sizing: border-box;
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--lid-rotate, 0deg));
+  will-change: transform;
+  transition: transform 0.08s ease-out;
+  z-index: 3;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, calc(0.12 + var(--lid-fold, 0) * 0.25)),
+    0 2px 6px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Iconic Apple Display Camera Notch */
+.macbook-camera-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 12px;
+  background: #0D0D10;
+  border-radius: 0 0 7px 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  z-index: 15;
+}
+
+.camera-lens {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2A6590 30%, #0C1724 90%);
+}
+
+.camera-lens-glint {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #1C4472;
+}
+
+.camera-sensor-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Liquid Retina Screen */
+.macbook-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background: linear-gradient(145deg, #4A5568 0%, #2D3748 40%, #1A202C 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(14px, 2.5vh, 24px) clamp(18px, 3.5vw, 32px) clamp(10px, 1.8vh, 16px);
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* Stylized Sonoma Wave Wallpaper */
+.macbook-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 75% 25%, rgba(180, 195, 220, 0.6) 0%, transparent 50%),
+    radial-gradient(ellipse at 25% 80%, rgba(110, 130, 165, 0.7) 0%, transparent 60%),
+    linear-gradient(180deg, #7B8CA3 0%, #9DAEC5 30%, #B8C7DB 55%, #7C8D9F 80%, #526173 100%);
+  z-index: 1;
+}
+
+/* Stylized Dune Wave */
+.macbook-screen::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  right: -20%;
+  height: 62%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.75) 0%, rgba(210, 225, 240, 0.5) 40%, transparent 70%);
+  border-radius: 50% 50% 0 0;
+  transform: scaleY(0.7);
+  z-index: 2;
+  filter: blur(8px);
+}
+
+/* macOS Lock Screen UI */
+.screen-lock-ui {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.lock-date {
+  font-size: clamp(11px, 1.8vh, 14px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 2px;
+}
+
+.lock-time-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: -6px;
+}
+
+.lock-time {
+  font-size: clamp(38px, 6.5vh, 52px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: #FFFFFF;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  font-variant-numeric: tabular-nums;
+  transition: text-shadow 0.08s ease-out;
+}
+
+
+.lock-home-bar {
+  width: clamp(70px, 14vw, 130px);
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2px;
+}
+
+/* Black Anodized Hinge Clutch Barrel */
+.macbook-hinge-barrel {
+  position: relative;
+  width: 78%;
+  height: 6px;
+  background: linear-gradient(180deg, #1C1C1E 0%, #2C2C2E 50%, #101012 100%);
+  border-radius: 3px;
+  margin-top: -3px;
+  margin-bottom: -1px;
+  z-index: 5;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* MacBook Pro Unibody Base Chassis */
+.macbook-base {
+  position: relative;
+  width: 98%;
+  height: 16px;
+  background: linear-gradient(180deg, #A8A8AD 0%, #8E8E93 35%, #68686C 100%);
+  border-radius: 0 0 16px 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 4;
+  box-shadow: 
+    0 1px 2px rgba(255, 255, 255, 0.45) inset,
+    0 -1px 2px rgba(0, 0, 0, 0.4) inset;
+}
+
+/* Center Display Open Lip Notch */
+.macbook-notch {
+  width: 14%;
+  height: 5px;
+  background: #48484A;
+  border-radius: 0 0 5px 5px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+/* Ambient Ground Contact Shadow Below Entire Laptop */
+.macbook-ground-shadow {
+  width: 92%;
+  height: 24px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.08) 50%, transparent 80%);
+  margin-top: 0px;
+  border-radius: 50%;
+  filter: blur(8px);
+  z-index: 1;
+  transition: transform 0.08s ease-out;
+  transform: scaleX(calc(1 + var(--lid-fold, 0) * 0.08));
+}
+
+/* Active Shader Layer */
+.shader-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.08s ease-out;
+}
+
+/* ==========================================================================
+   Metal Shader Effects (Accurate to Sources/MacHinge/Metal/Shaders.metal)
+   ========================================================================== */
+
+/* Effect 1: Luminous Wake & Fold Glow */
+/* Metal: glowTiming = pow(smoothstep(0.12, 1.0, p), 1.35) */
+/* Volumetric pure white bloom + cascading light sweep + crease radiance */
+#effect-glow .macbook-screen {
+  filter: brightness(calc(1 + var(--glow-intensity, 0) * 0.35));
+}
+
+#effect-glow .lock-time {
+  text-shadow: 
+    0 0 calc(var(--glow-intensity, 0) * 32px) rgba(255, 255, 255, 0.95),
+    0 0 calc(var(--glow-intensity, 0) * 12px) #FFFFFF,
+    0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.shader-glow {
+  opacity: var(--glow-intensity, 0);
+  background:
+    /* Cascading horizontal light sweep flowing across the fold horizon */
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent calc(var(--flow-pos, 100%) - 14%),
+      rgba(255, 255, 255, 0.92) var(--flow-pos, 100%),
+      rgba(255, 255, 255, 0.85) calc(var(--flow-pos, 100%) + 4%),
+      transparent calc(var(--flow-pos, 100%) + 20%),
+      transparent 100%
+    ),
+    /* Ethereal crease radiance concentrated at fold horizon */
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.92) 28%,
+      rgba(235, 245, 255, 0.5) 58%,
+      transparent 85%
+    ),
+    /* Volumetric flood bloom awakening display */
+    radial-gradient(
+      circle at 50% 55%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(240, 248, 255, 0.25) 55%,
+      transparent 85%
+    );
+  mix-blend-mode: screen;
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* Effect 2: Apple Frosted Glass */
+/* Metal: 13-tap Poisson blur radius 0.0075 * pow(p, 0.80) + specular sheen + crease AO */
+#effect-glass .screen-lock-ui {
+  filter: blur(calc(var(--glass-blur, 0px) * 0.42));
+  transition: filter 0.08s ease-out;
+}
+
+.shader-glass {
+  opacity: var(--glass-opacity, 0);
+  backdrop-filter: blur(var(--glass-blur, 0px)) saturate(calc(100% + var(--lid-fold, 0) * 50%));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 0px)) saturate(calc(100% + var(--lid-fold, 0) * 50%));
+  background:
+    /* Specular glass sheen sweeping downward with fold angle */
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.48)) 0%,
+      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.15)) 40%,
+      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.04)) 70%,
+      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.28)) 100%
+    ),
+    /* Crease ambient occlusion at hinge base */
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, calc(var(--lid-fold, 0) * 0.35)) 0%,
+      transparent 35%
+    );
+  border: 1px solid rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.35));
+}
+
+/* Effect 3: Magnetic Lens Distortion & Chromatic Gravitational Warp */
+/* Metal: Gravitational deflection field toward (0.5, 1.05) + differential RGB dispersion */
+#effect-lens .screen-lock-ui {
+  transform: translateY(calc(var(--lens-timing, 0) * 16px)) scaleY(calc(1 - var(--lens-timing, 0) * 0.10));
+  transform-origin: bottom center;
+  transition: transform 0.08s ease-out;
+}
+
+#effect-lens .lock-time {
+  text-shadow: 
+    calc(var(--lens-timing, 0) * -9px) 0 2px rgba(255, 59, 48, 0.85),
+    calc(var(--lens-timing, 0) * 9px) 0 2px rgba(0, 199, 255, 0.95),
+    0 4px 20px rgba(0, 0, 0, 0.25);
+  transform-origin: bottom center;
+}
+
+#effect-lens .lock-date {
+  text-shadow: 
+    calc(var(--lens-timing, 0) * -5px) 0 2px rgba(255, 59, 48, 0.8),
+    calc(var(--lens-timing, 0) * 5px) 0 2px rgba(0, 199, 255, 0.9);
+}
+
+.shader-lens {
+  opacity: var(--lens-timing, 0);
+  background:
+    /* Einstein ring caustics & magnetic flux focused at hinge pole (50% 105%) */
+    radial-gradient(
+      circle at 50% 105%,
+      transparent 32%,
+      rgba(96, 165, 250, 0.60) 48%,
+      rgba(59, 130, 246, 0.20) 53%,
+      transparent 66%
+    ),
+    /* Gravitational deflection dark core toward hinge pole */
+    radial-gradient(
+      ellipse at 50% 105%,
+      rgba(15, 23, 42, 0.55) 0%,
+      rgba(30, 58, 138, 0.25) 45%,
+      transparent 75%
+    ),
+    /* Silhouette magnetic halo along perimeter */
+    radial-gradient(
+      ellipse at 50% 50%,
+      transparent 68%,
+      rgba(56, 189, 248, 0.28) 100%
+    );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Responsive scaling for mobile viewports */
+@media (max-width: 640px) {
+  .macbook-stage-wrapper {
+    transform: scale(0.85);
+    transform-origin: center center;
+    margin: -10px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .macbook-stage-wrapper {
+    transform: scale(0.78);
+    transform-origin: center center;
+    margin: -15px auto;
+  }
+}
+
+/* Caption Below Laptop (Exact Match to User Reference) */
+.macbook-caption {
+  font-size: clamp(0.8125rem, 1.1vw, 0.9375rem);
+  color: #86868B;
+  text-align: center;
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+/* Shader Math Formula Badge */
+.shader-formula-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(0.65rem, 0.9vw, 0.75rem);
+  color: #6E6E73;
+  background: #F5F5F7;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 5px 14px;
+  border-radius: 9999px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.shader-formula-pill code {
+  color: #111111;
+  font-weight: 500;
+}
+
+#effect-glass,
+#effect-lens {
+  margin-bottom: 80px;
+}

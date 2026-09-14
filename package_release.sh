@@ -124,6 +124,9 @@ cp "$RELEASE_DIR/CHANGELOG.txt" "$TMP_DMG_DIR/"
 hdiutil create -volname "MacHinge" -srcfolder "$TMP_DMG_DIR" -ov -format UDZO "$DMG_PATH"
 rm -rf "$TMP_DMG_DIR"
 
+# Also copy to Installer filename for URL compatibility
+cp "$DMG_PATH" "$RELEASE_DIR/MacHinge-0.1.0-Installer.dmg"
+
 echo "============================================================"
 echo "          Release Package Build Completed Successfully"
 echo "============================================================"
