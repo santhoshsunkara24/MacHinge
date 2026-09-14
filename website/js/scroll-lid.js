@@ -81,6 +81,24 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
 
+  // Smooth scrolling for in-page anchors (e.g. effect pill buttons)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          if (history.pushState) {
+            history.pushState(null, '', targetId);
+          }
+        }
+      });
+    });
+  });
+
   // Initial calculation on load
   document.addEventListener('DOMContentLoaded', updateLidPositions);
   updateLidPositions();

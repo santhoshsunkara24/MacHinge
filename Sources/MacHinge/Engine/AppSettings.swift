@@ -143,12 +143,12 @@ public final class AppSettings: ObservableObject {
         didSet { defaults.set(customPreferredAngle, forKey: kCustomAngle) }
     }
 
-    @Published public var closingTriggerAngle: Double {
-        didSet {
-            let clamped = min(85.0, max(50.0, closingTriggerAngle))
-            if clamped != closingTriggerAngle { closingTriggerAngle = clamped }
-            defaults.set(clamped, forKey: kClosingTriggerAngle)
-        }
+    public var effectStartAngle: Double {
+        return effectivePreferredAngle - 30.0
+    }
+
+    public var closingTriggerAngle: Double {
+        return effectStartAngle
     }
 
     @Published public var closedEndpointAngle: Double {
@@ -204,8 +204,6 @@ public final class AppSettings: ObservableObject {
 
         let rawEndpoint = defaults.object(forKey: kClosedEndpoint) != nil ? defaults.double(forKey: kClosedEndpoint) : 25.0
         self.closedEndpointAngle = rawEndpoint
-        let rawTrigger = defaults.object(forKey: kClosingTriggerAngle) as? Double ?? AppSettings.defaultClosingTriggerAngle
-        self.closingTriggerAngle = (rawTrigger >= 50.0 && rawTrigger <= 85.0) ? rawTrigger : AppSettings.defaultClosingTriggerAngle
         self.deadbandDegrees = 0.0 // Starts exactly at 80.0°
         self.animationIntensity = defaults.object(forKey: kIntensity) != nil ? defaults.double(forKey: kIntensity) : 1.0
 
@@ -231,7 +229,6 @@ public final class AppSettings: ObservableObject {
         self.visualEffectStyle = .luminousGlow
         self.glowIntensity = 1.0
         self.animationIntensity = 1.0
-        self.closingTriggerAngle = 78.0
         self.closedEndpointAngle = 25.0
         self.transitionCurve = .smoothstep
     }
@@ -245,7 +242,6 @@ public final class AppSettings: ObservableObject {
         self.visualEffectStyle = .luminousGlow
         self.glowIntensity = 1.0
         self.customPreferredAngle = 80.0
-        self.closingTriggerAngle = 78.0
         self.closedEndpointAngle = 25.0
         self.deadbandDegrees = 0.0
         self.animationIntensity = 1.0

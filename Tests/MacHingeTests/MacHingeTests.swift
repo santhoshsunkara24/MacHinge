@@ -20,30 +20,33 @@ struct MacHingeTests {
         #expect(abs(pWithinDeadband - 0.0) < 0.0001)
     }
 
-    @Test("Closing trigger threshold at 78 degrees")
+    @Test("Effect start angle threshold is relative to preferred angle (preferred - 30°)")
     @MainActor
-    func testClosingTriggerThresholdAt78Degrees() {
+    func testEffectStartAngleRelativeToPreferredAngle() {
         let controller = AnimationController()
-        controller.settings.preset = .comfortable105
-        controller.settings.closingTriggerAngle = 78.0
         controller.settings.closedEndpointAngle = 25.0
 
-        // Angles strictly above 78° must return exactly 0 progress
-        let aboveAngles = [120.0, 105.0, 104.5, 100.0, 90.0, 80.0, 78.1]
-        for angle in aboveAngles {
+        // Test with 105° preset (Effect start = 105° - 30° = 75°)
+        controller.settings.preset = .comfortable105
+        #expect(controller.settings.effectivePreferredAngle == 105.0)
+        #expect(controller.settings.effectStartAngle == 75.0)
+
+        // Angles strictly above 75° must return exactly 0 progress
+        let above105 = [120.0, 105.0, 104.5, 100.0, 90.0, 80.0, 75.1]
+        for angle in above105 {
             let p = controller.computeProgress(for: angle)
-            #expect(abs(p - 0.0) < 0.0001, "Angle \(angle)° (> 78°) must have 0.0 progress")
+            #expect(abs(p - 0.0) < 0.0001, "Angle \(angle)° (> 75°) must have 0.0 progress for 105° preset")
         }
 
-        // Exactly 78.0° must return exactly 0 progress
-        let pAtThreshold = controller.computeProgress(for: 78.0)
-        #expect(abs(pAtThreshold - 0.0) < 0.0001, "Angle 78.0° must have 0.0 progress")
+        // Exactly 75.0° must return exactly 0 progress
+        let pAt75 = controller.computeProgress(for: 75.0)
+        #expect(abs(pAt75 - 0.0) < 0.0001, "Angle 75.0° must have 0.0 progress for 105° preset")
 
-        // Angles strictly below 78° must return progress > 0
-        let belowAngles = [77.9, 70.0, 60.0, 50.0, 35.0, 26.0]
-        for angle in belowAngles {
+        // Angles strictly below 75° must return progress > 0
+        let below75 = [74.9, 70.0, 60.0, 50.0, 35.0, 26.0]
+        for angle in below75 {
             let p = controller.computeProgress(for: angle)
-            #expect(p > 0.0, "Angle \(angle)° (< 78°) must have progress > 0")
+            #expect(p > 0.0, "Angle \(angle)° (< 75°) must have progress > 0")
             #expect(p <= 1.0, "Progress must not exceed 1.0")
         }
 
@@ -51,8 +54,24 @@ struct MacHingeTests {
         let pAtEndpoint = controller.computeProgress(for: 25.0)
         #expect(abs(pAtEndpoint - 1.0) < 0.0001, "Closed endpoint 25.0° must have 1.0 progress")
 
-        let pBelowEndpoint = controller.computeProgress(for: 15.0)
-        #expect(abs(pBelowEndpoint - 1.0) < 0.0001, "Angle below endpoint must have 1.0 progress")
+        // Test with 90° preset (Effect start = 90° - 30° = 60°)
+        controller.settings.preset = .upright90
+        #expect(controller.settings.effectivePreferredAngle == 90.0)
+        #expect(controller.settings.effectStartAngle == 60.0)
+
+        #expect(abs(controller.computeProgress(for: 75.0) - 0.0) < 0.0001)
+        #expect(abs(controller.computeProgress(for: 60.0) - 0.0) < 0.0001)
+        #expect(controller.computeProgress(for: 59.9) > 0.0)
+
+        // Test with Custom 100° angle (Effect start = 100° - 30° = 70°)
+        controller.settings.preset = .custom
+        controller.settings.customPreferredAngle = 100.0
+        #expect(controller.settings.effectivePreferredAngle == 100.0)
+        #expect(controller.settings.effectStartAngle == 70.0)
+
+        #expect(abs(controller.computeProgress(for: 85.0) - 0.0) < 0.0001)
+        #expect(abs(controller.computeProgress(for: 70.0) - 0.0) < 0.0001)
+        #expect(controller.computeProgress(for: 69.9) > 0.0)
     }
 
     @Test("Progress monotonicity down to closed endpoint")
@@ -60,11 +79,11 @@ struct MacHingeTests {
     func testProgressMonotonicityDownToClosedEndpoint() {
         let controller = AnimationController()
         controller.settings.preset = .comfortable105
-        controller.settings.closingTriggerAngle = 78.0
         controller.settings.closedEndpointAngle = 10.0
 
+        // Preferred = 105°, effect start = 75°
         var lastProgress: Double = -1.0
-        for angleInt in stride(from: 78, through: 10, by: -1) {
+        for angleInt in stride(from: 75, through: 10, by: -1) {
             let angle = Double(angleInt)
             let p = controller.computeProgress(for: angle)
             #expect(p >= lastProgress, "Progress should monotonically increase as lid closes")

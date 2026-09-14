@@ -40,10 +40,11 @@ func getMemoryFootprintMB() -> Double {
     return 0.0
 }
 
-func computeProgress(angle: Double, closingTrigger: Double = 78.0, endpoint: Double = 25.0) -> Double {
-    guard angle < closingTrigger else { return 0.0 }
-    let activeSpan = max(1.0, closingTrigger - endpoint)
-    let rawX = min(1.0, max(0.0, (closingTrigger - angle) / activeSpan))
+func computeProgress(angle: Double, preferredAngle: Double = 105.0, endpoint: Double = 25.0) -> Double {
+    let effectStartAngle = preferredAngle - 30.0
+    guard angle < effectStartAngle else { return 0.0 }
+    let activeSpan = max(1.0, effectStartAngle - endpoint)
+    let rawX = min(1.0, max(0.0, (effectStartAngle - angle) / activeSpan))
     return rawX * rawX * (3.0 - 2.0 * rawX)
 }
 
@@ -66,26 +67,23 @@ let defaults = UserDefaults.standard
 defaults.set(true, forKey: "machinge.hasCompletedOnboarding")
 defaults.set("105° — Comfortable", forKey: "machinge.viewingAnglePreset")
 defaults.set(104.5, forKey: "machinge.customPreferredAngle")
-defaults.set(78.0, forKey: "machinge.closingTriggerAngle")
 defaults.set(1.0, forKey: "machinge.animationIntensity")
 defaults.set(25.0, forKey: "machinge.closedEndpointAngle")
 
 let onboardingSaved = defaults.bool(forKey: "machinge.hasCompletedOnboarding")
 let customSaved = defaults.double(forKey: "machinge.customPreferredAngle")
-let closingSaved = defaults.double(forKey: "machinge.closingTriggerAngle")
 let endpointSaved = defaults.double(forKey: "machinge.closedEndpointAngle")
 
 print("  - Onboarding Completed Flag Persisted: \(onboardingSaved ? "YES" : "NO")")
 print(String(format: "  - Custom Preferred Angle Persisted:   %.1f°", customSaved))
-print(String(format: "  - Closing Trigger Angle Persisted:    %.1f°", closingSaved))
 print(String(format: "  - Closed Endpoint Persisted:          %.1f°", endpointSaved))
 
 // 3. ZERO-DISTORTION & MONOTONIC FULL RANGE
-print("\n[3. MONOTONIC FULL-RANGE ANGLE PROGRESSION (Trigger at 78.0°)]")
-let testAngles = [104.5, 100.0, 90.0, 80.0, 78.0, 77.9, 75.0, 60.0, 50.0, 40.0, 25.0, 10.0]
+print("\n[3. MONOTONIC FULL-RANGE ANGLE PROGRESSION (Preferred 105.0°, Trigger at 75.0°)]")
+let testAngles = [105.0, 100.0, 90.0, 80.0, 75.0, 74.9, 60.0, 50.0, 40.0, 25.0, 10.0]
 for a in testAngles {
-    let p = computeProgress(angle: a, closingTrigger: 78.0, endpoint: 25.0)
-    let desc = a >= 78.0 ? "100% Normal / Idle Display" : String(format: "Progress: %5.1f%%", p * 100.0)
+    let p = computeProgress(angle: a, preferredAngle: 105.0, endpoint: 25.0)
+    let desc = a >= 75.0 ? "100% Normal / Idle Display" : String(format: "Progress: %5.1f%%", p * 100.0)
     print(String(format: "  - Angle %5.1f° -> Progress: %6.4f  [%@]", a, p, desc))
 }
 

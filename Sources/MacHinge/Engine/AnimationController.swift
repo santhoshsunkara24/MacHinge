@@ -210,12 +210,12 @@ public final class AnimationController: ObservableObject {
     public func computeProgress(for angle: Double) -> Double {
         guard settings.isEnabled else { return 0.0 }
 
-        let closingTriggerAngle: Double = settings.closingTriggerAngle
-        guard angle < closingTriggerAngle else { return 0.0 }
+        let effectStartAngle: Double = settings.effectStartAngle
+        guard angle < effectStartAngle else { return 0.0 }
 
         let endpoint = settings.closedEndpointAngle
-        let activeSpan = max(1.0, closingTriggerAngle - endpoint)
-        let rawX = min(1.0, max(0.0, (closingTriggerAngle - angle) / activeSpan))
+        let activeSpan = max(1.0, effectStartAngle - endpoint)
+        let rawX = min(1.0, max(0.0, (effectStartAngle - angle) / activeSpan))
 
         switch settings.transitionCurve {
         case .smoothstep:
