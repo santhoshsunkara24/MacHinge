@@ -386,6 +386,69 @@ a {
   50% { transform: translateY(4px); }
 }
 
+/* Hero Sticky Note Button */
+.hero-note-sticker {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease, visibility 0.25s ease;
+  transform: rotate(3deg);
+}
+
+.hero-note-sticker:hover {
+  transform: scale(1.08) rotate(-2deg) translateY(-4px);
+}
+
+.hero-note-sticker.sticker-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.85);
+}
+
+.note-sticker-img {
+  width: clamp(84px, 7vw, 98px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.16));
+  transition: filter 0.2s ease;
+}
+
+.hero-note-sticker:hover .note-sticker-img {
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.22));
+}
+
+.note-sticker-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-ink);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-hairline);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hero-note-sticker:hover .note-sticker-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ==========================================================================
    Section Transition Dividers
    ========================================================================== */
@@ -552,6 +615,24 @@ a {
   line-height: 1.5;
   letter-spacing: -0.01em;
   margin: 0 auto;
+}
+
+.effects-intro-section {
+  padding: clamp(64px, 10vh, 110px) 0 clamp(36px, 6vh, 64px);
+}
+
+.effects-intro-header {
+  max-width: 860px;
+  margin-bottom: 0;
+}
+
+.effects-intro-title {
+  font-size: clamp(2.4rem, 4.6vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--text-ink);
+  margin-bottom: 0;
 }
 
 /* ==========================================================================
@@ -974,4 +1055,229 @@ a {
     max-height: 400px;
   }
 }
+
+/* ==========================================================================
+   Section 5: Developer Note & macOS Gatekeeper Explanation
+   ========================================================================== */
+
+.section-developer-note {
+  background: var(--bg-canvas);
+  padding-top: clamp(60px, 8vw, 96px);
+  padding-bottom: clamp(64px, 8vw, 100px);
+  scroll-margin-top: 70px;
+}
+
+.developer-note-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(36px, 5vw, 64px);
+  align-items: center;
+  margin-bottom: clamp(52px, 7vw, 80px);
+}
+
+.note-visual-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dialog-screenshot-frame {
+  max-width: 440px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12), 0 3px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-hairline);
+  background: #FFFFFF;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.dialog-screenshot-frame:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 32px 76px rgba(0, 0, 0, 0.16), 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+.dialog-screenshot-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.note-screenshot-caption {
+  font-size: 0.8125rem;
+  color: var(--text-ink-secondary);
+  margin-top: 14px;
+  text-align: center;
+}
+
+.note-text-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  text-align: left;
+}
+
+.note-block-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-ink);
+  margin: 0 0 8px;
+}
+
+.note-block-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-ink-secondary);
+  margin: 0;
+}
+
+.note-block-text strong {
+  color: var(--text-ink);
+  font-weight: 600;
+}
+
+.note-instructions-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 18px 22px;
+}
+
+.note-steps-list {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-ink-secondary);
+}
+
+.note-steps-list li {
+  margin-bottom: 6px;
+}
+
+.note-steps-list li:last-child {
+  margin-bottom: 0;
+}
+
+.note-steps-list li strong {
+  color: var(--text-ink);
+}
+
+.note-steps-list code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-ink);
+}
+
+/* Buy Me a Coffee Support Card */
+.coffee-support-card {
+  background: linear-gradient(135deg, rgba(255, 221, 0, 0.12) 0%, rgba(255, 159, 10, 0.08) 100%);
+  border: 1px solid rgba(255, 179, 0, 0.35);
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  text-align: left;
+}
+
+.coffee-content {
+  max-width: 620px;
+}
+
+.coffee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #B25E00;
+  margin-bottom: 10px;
+}
+
+.coffee-title {
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-ink);
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+
+.coffee-desc {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-ink-secondary);
+  margin: 0;
+}
+
+.coffee-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-coffee {
+  background: #FFDD00;
+  color: #000000;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 10px rgba(255, 221, 0, 0.45);
+  padding: 12px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-button);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-coffee:hover {
+  background: #FFD400;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(255, 221, 0, 0.55);
+  color: #000000;
+}
+
+@media (max-width: 860px) {
+  .developer-note-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .coffee-support-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .coffee-actions {
+    width: 100%;
+    flex-direction: row;
+  }
+  .coffee-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .coffee-actions {
+    flex-direction: column;
+  }
+  .hero-note-sticker {
+    right: 16px;
+    bottom: 16px;
+  }
+  .note-sticker-img {
+    width: 70px;
+  }
+}
+
 

@@ -81,9 +81,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
 
-  // Smooth scrolling for in-page anchors (e.g. effect pill buttons)
-  document.addEventListener('DOMContentLoaded', () => {
+  // Smooth scrolling for in-page anchors (e.g. effect pill buttons, note sticker)
+  function bindSmoothAnchors() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      if (anchor.dataset.smoothBound) return;
+      anchor.dataset.smoothBound = 'true';
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (!targetId || targetId === '#') return;
@@ -97,7 +99,37 @@
         }
       });
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindSmoothAnchors);
+  } else {
+    bindSmoothAnchors();
+  }
+
+  // Hide sticky note button when viewing the developer note section
+  function initStickerObserver() {
+    const devNoteSection = document.getElementById('developer-note');
+    const noteSticker = document.querySelector('.hero-note-sticker');
+    if (devNoteSection && noteSticker && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            noteSticker.classList.add('sticker-hidden');
+          } else {
+            noteSticker.classList.remove('sticker-hidden');
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(devNoteSection);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStickerObserver);
+  } else {
+    initStickerObserver();
+  }
 
   // Initial calculation on load
   document.addEventListener('DOMContentLoaded', updateLidPositions);

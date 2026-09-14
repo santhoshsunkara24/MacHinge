@@ -34,10 +34,10 @@ scratch/
 
 # Binary Distribution Artifacts (Build output)
 Release/MacHinge.app/
-Release/*.dmg
-Release/*.zip
 *.dmg
 *.zip
+!Release/*.dmg
+!Release/*.zip
 
 # Secrets & Credentials
 .env
