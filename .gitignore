@@ -1,0 +1,50 @@
+# ==============================================================================
+# MacHinge — .gitignore
+# ==============================================================================
+
+# macOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Swift Package Manager & Xcode
+/.build/
+/Packages/
+DerivedData/
+xcuserdata/
+*.xcodeproj/
+*.xcworkspace/
+.swiftpm/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Local Debug Scripts & Scratch Files
+debug_pipeline.swift
+test_live_app.swift
+*.log
+
+# Media & Screen Recordings
+*.mp4
+*.mov
+*.m4v
+
+# Binary Distribution Artifacts (Build output)
+Release/MacHinge.app/
+Release/*.dmg
+Release/*.zip
+*.dmg
+*.zip
+
+# Secrets & Credentials
+.env
+*.env
+.netrc
+*.p12
+*.cer
+*.key
+*.pem
+*.provisionprofile
+*.mobileprovision

@@ -1,0 +1,24 @@
+================================================================================
+                            MacHinge Installation Guide
+================================================================================
+
+HOW TO INSTALL:
+1. Open MacHinge-0.1.0.dmg or expand MacHinge-0.1.0.zip.
+2. Drag "MacHinge.app" into your "/Applications" folder.
+3. Open "/Applications/MacHinge.app".
+
+OPENING ON macOS (UNSIGNED BETA):
+Because MacHinge is a free beta distributed directly without the Mac App Store:
+1. On initial launch, macOS may indicate that the developer cannot be verified.
+2. Open System Settings → Privacy & Security.
+3. Scroll down to the Security section.
+4. Locate the message: "MacHinge was blocked from use because it is not from an identified developer."
+5. Click "Open Anyway" and authenticate with your password or Touch ID.
+6. Launch MacHinge.
+
+FIRST-TIME SETUP:
+1. When MacHinge opens, follow the quick 2-step setup.
+2. Grant Screen Recording permission when prompted so MacHinge can capture
+   your display locally in real time (System Settings → Privacy & Security → Screen Recording).
+3. Select or calibrate your preferred normal viewing angle (default: 105°).
+4. Click "Get Started". MacHinge will now run quietly in your menu bar.

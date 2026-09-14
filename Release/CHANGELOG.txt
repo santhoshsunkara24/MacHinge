@@ -1,0 +1,13 @@
+================================================================================
+                               MacHinge Changelog
+================================================================================
+
+Version 0.1.0 (Build 1) — Initial Public Beta
+--------------------------------------------------------------------------------
+• Real-time physical lid tracking via Apple SPU sensor (Usage 0x0545, 0.01° resolution at 60 Hz).
+• Zero-distortion preferred viewing angle anchor with customizable presets (90°, 100°, 105°, 110°, Custom).
+• Physical closing transition activating below the closing threshold (~78°).
+• Zero-copy ScreenCaptureKit to Metal texture streaming.
+• Low idle CPU usage observed during testing, with active rendering paused when stationary.
+• 100% local on-device processing.
+• Clean menu bar utility and native macOS Settings interface.
