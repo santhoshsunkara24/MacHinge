@@ -31,6 +31,7 @@ scratch/
 *.mp4
 *.mov
 *.m4v
+!website/assets/videos/*.mp4
 
 # Binary Distribution Artifacts (Build output)
 Release/MacHinge.app/
