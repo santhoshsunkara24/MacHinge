@@ -40,7 +40,10 @@ let package = Package(
             dependencies: ["MacHinge", "LidSensorKit"],
             path: "Tests/MacHingeTests",
             swiftSettings: [
-                .unsafeFlags(["-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks"])
+                .unsafeFlags([
+                    "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-load-plugin-library", "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing/libTestingMacros.dylib"
+                ])
             ],
             linkerSettings: [
                 .unsafeFlags([

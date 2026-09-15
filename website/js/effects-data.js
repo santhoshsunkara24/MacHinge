@@ -30,17 +30,17 @@ export const effectsData = [
   },
   {
     id: "frosted-glass",
-    name: "Apple Frosted Glass",
-    badge: "Tactile Glassmorphism",
-    tagline: "Soft, frosted layers shift with the hinge, creating depth and fluid movement.",
-    summary: "Folds your active macOS desktop in 3D perspective around the hinge axis while softening the screen into silky, hardware-accelerated frosted glass.",
-    behavior: "Deforms the desktop texture with gentle 3D cylindrical folding and subtle perspective foreshortening. The glass diffusion radius expands dynamically with lid angular velocity, featuring ambient crease occlusion and specular sheen.",
-    bestFor: "Understated elegance, minimal distraction, and native Apple material aesthetics.",
+    name: "Duo Effect",
+    badge: "Physical Optical Glass",
+    tagline: "Physical optical depth-of-field shifts with the hinge, keeping the dock crystal clear while defocusing the top.",
+    summary: "Simulates a physical optical glass panel with desktop raycasting and contact protection at the hinge.",
+    behavior: "Keeps the bottom Dock 100% sharp while progressively defocusing content upward with distance-proportional optical scattering and radial chromatic dispersion.",
+    bestFor: "Understated elegance, minimal distraction, and native optical depth-of-field.",
     shaderDetails: [
-      "13-tap 2D Golden-Angle Poisson distribution for isotropic diffusion",
-      "Directional velocity blur biased along physical lid movement trajectory",
-      "Natural optical lighting with ambient occlusion crease shading",
-      "Sub-pixel edge antialiasing against deep chassis backdrop"
+      "Fixed desktop plane raycast projection from stationary eye viewpoint",
+      "Hinge contact clear zone protecting bottom 3.5%–20% (Dock in focus)",
+      "17-tap Golden-Angle Poisson Disk bokeh kernel for optical defocus",
+      "Radial chromatic dispersion and soft transmission curtain"
     ],
     videoSrc: null,
     posterSrc: null,

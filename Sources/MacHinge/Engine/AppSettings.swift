@@ -37,7 +37,7 @@ public enum AppAppearance: String, CaseIterable, Identifiable, Codable {
 }
 
 public enum VisualEffectStyle: String, CaseIterable, Identifiable, Codable {
-    case frostedGlass = "Apple Frosted Glass"
+    case frostedGlass = "Duo Effect"
     case luminousGlow = "Luminous Wake & Fold Glow"
     case magneticLens = "Magnetic Lens Distortion"
 

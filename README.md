@@ -34,7 +34,7 @@ When you close your MacBook lid, your screen smoothly curves around the hinge ax
   - Reads physical hinge angle reports at approximately 50–60 Hz during physical motion via I/O Kit HID services.
 - **Metal-Accelerated 3D Folding Mesh:**
   - Real-time 3D perspective, curvature deformation, ambient occlusion crease shading, and lighting effects.
-  - Multiple configurable visual styles: *Luminous Glow*, *Frosted Glass*, and *Magnetic Lens*.
+  - Multiple configurable visual styles: *Luminous Glow*, *Duo Effect*, and *Magnetic Lens*.
 - **Low-Overhead Idle State:**
   - When the lid is stationary at a normal viewing angle (> 78°), active Metal rendering and screen capture pause automatically, resulting in low idle CPU usage observed during testing.
 - **Instant Wake Transition:**

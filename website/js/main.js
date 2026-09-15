@@ -113,11 +113,13 @@ function initHeroSimulation() {
         lidMesh.style.filter = `blur(${progress * 12}px)`;
         lidMesh.style.opacity = glowOpacity > 0.02 ? '1' : '0';
       } else if (activeEffect === 'frosted-glass') {
-        const blurAmount = progress * 16;
-        const frostedOpacity = progress * 0.85;
-        lidMesh.style.background = `rgba(255, 255, 255, ${frostedOpacity * 0.18})`;
+        const blurAmount = progress * 20;
+        const opacity = Math.pow(progress, 0.85);
+        lidMesh.style.background = `linear-gradient(to bottom, rgba(255, 255, 255, ${opacity * 0.12}) 0%, transparent 75%)`;
         lidMesh.style.backdropFilter = `blur(${blurAmount}px)`;
         lidMesh.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
+        lidMesh.style.maskImage = `linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.75) 45%, rgba(0, 0, 0, 0) 82%)`;
+        lidMesh.style.webkitMaskImage = `linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.75) 45%, rgba(0, 0, 0, 0) 82%)`;
         lidMesh.style.opacity = progress > 0.02 ? '1' : '0';
       } else if (activeEffect === 'magnetic-lens') {
         const lensProgress = Math.pow(progress, 1.25);

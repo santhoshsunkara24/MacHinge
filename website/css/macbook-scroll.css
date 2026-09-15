@@ -357,33 +357,31 @@
   pointer-events: none;
 }
 
-/* Effect 2: Apple Frosted Glass */
-/* Metal: 13-tap Poisson blur radius 0.0075 * pow(p, 0.80) + specular sheen + crease AO */
-#effect-glass .screen-lock-ui {
-  filter: blur(calc(var(--glass-blur, 0px) * 0.42));
+/* Effect 2: Duo Effect (Physical Optical Depth-of-Field Glass) */
+/* Metal: Stationary desktop raycast + hinge contact clear zone + progressive optical defocus */
+#effect-glass .lock-time,
+#effect-glass .lock-date {
+  filter: blur(calc(var(--glass-blur, 0px) * 0.38));
   transition: filter 0.08s ease-out;
+}
+
+#effect-glass .lock-home-bar {
+  filter: none;
+  opacity: 1;
 }
 
 .shader-glass {
   opacity: var(--glass-opacity, 0);
-  backdrop-filter: blur(var(--glass-blur, 0px)) saturate(calc(100% + var(--lid-fold, 0) * 50%));
-  -webkit-backdrop-filter: blur(var(--glass-blur, 0px)) saturate(calc(100% + var(--lid-fold, 0) * 50%));
-  background:
-    /* Specular glass sheen sweeping downward with fold angle */
-    linear-gradient(
-      165deg,
-      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.48)) 0%,
-      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.15)) 40%,
-      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.04)) 70%,
-      rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.28)) 100%
-    ),
-    /* Crease ambient occlusion at hinge base */
-    linear-gradient(
-      0deg,
-      rgba(0, 0, 0, calc(var(--lid-fold, 0) * 0.35)) 0%,
-      transparent 35%
-    );
-  border: 1px solid rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.35));
+  backdrop-filter: blur(var(--glass-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 0px));
+  /* Duo Effect Hinge Contact Protection: Top has strong optical defocus, bottom 20% near hinge remains 100% sharp */
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.75) 45%, rgba(0, 0, 0, 0) 82%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.75) 45%, rgba(0, 0, 0, 0) 82%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, calc(var(--lid-fold, 0) * 0.12)) 0%,
+    transparent 75%
+  );
 }
 
 /* Effect 3: Magnetic Lens Distortion & Chromatic Gravitational Warp */

@@ -17,7 +17,7 @@ struct FoldUniforms {
     float perspective;      // Perspective foreshortening strength
     float blurIntensity;    // Blur intensity
     float glowIntensity;    // Wake/fold glow radiance
-    float effectStyle;      // 0.0 = Pure Frosted Glass, 1.0 = Luminous Wake Glow
+    float effectStyle;      // 0.0 = Duo Effect, 1.0 = Luminous Wake Glow
 };
 
 // Fullscreen quad vertex shader
