@@ -4,11 +4,10 @@
  */
 
 const HERO_VIDEO_CONFIG = {
-  // Set this to your local or remote video path when ready (e.g., 'assets/videos/machinge-demo.mp4')
-  videoSrc: null,
-  posterSrc: null,
-  title: 'MacHinge Demonstration',
-  subtext: 'Real-time Apple SPU sensor tracking and Metal GPU display transitions.'
+  videoSrc: 'assets/videos/demo.mp4',
+  posterSrc: 'assets/videos/demo-poster.jpg',
+  title: 'MacHinge Live Demonstration',
+  subtext: 'Real-time Apple Silicon physical lid tracking and Metal GPU folding transitions.'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,13 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   if (HERO_VIDEO_CONFIG.videoSrc) {
-    // Render real HTML5 video player
+    // Render real HTML5 video player with Apple-grade presentation
     container.innerHTML = `
       <div class="video-player-frame">
         <video 
-          controls 
+          autoplay 
+          muted 
+          loop 
           playsinline 
-          preload="metadata"
+          controls 
+          preload="auto"
           poster="${HERO_VIDEO_CONFIG.posterSrc || ''}"
           class="hero-video-element"
         >
