@@ -1191,41 +1191,31 @@ a {
   color: var(--text-ink);
 }
 
-/* Buy Me a Coffee Support Card */
+/* Support & Open Source Card */
 .coffee-support-card {
-  background: linear-gradient(135deg, rgba(255, 221, 0, 0.12) 0%, rgba(255, 159, 10, 0.08) 100%);
-  border: 1px solid rgba(255, 179, 0, 0.35);
-  border-radius: 20px;
-  padding: clamp(28px, 4vw, 40px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: clamp(24px, 3.5vw, 36px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
   text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .coffee-content {
-  max-width: 620px;
-}
-
-.coffee-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #B25E00;
-  margin-bottom: 10px;
+  max-width: 580px;
 }
 
 .coffee-title {
-  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
   font-weight: 600;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: var(--text-ink);
-  margin: 0 0 10px;
-  line-height: 1.25;
+  margin: 0 0 8px;
+  line-height: 1.3;
 }
 
 .coffee-desc {
@@ -1238,32 +1228,30 @@ a {
 .coffee-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
 .btn-coffee {
-  background: #FFDD00;
-  color: #000000;
-  font-weight: 600;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 3px 10px rgba(255, 221, 0, 0.45);
-  padding: 12px 24px;
+  background: var(--bg-ink);
+  color: var(--text-on-dark);
+  font-weight: 500;
+  border: 1px solid transparent;
+  padding: 10px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border-radius: var(--radius-button);
   text-decoration: none;
-  font-size: 0.9375rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  font-size: 0.875rem;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .btn-coffee:hover {
-  background: #FFD400;
+  opacity: 0.88;
   transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(255, 221, 0, 0.55);
-  color: #000000;
+  color: var(--text-on-dark);
 }
 
 @media (max-width: 860px) {
