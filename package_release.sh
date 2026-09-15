@@ -9,7 +9,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$PROJECT_DIR"
 
 # 1. Clean & Build Release via SwiftPM
-echo "==> Building SwiftPM release binary..."
+export SDKROOT="${SDKROOT:-/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk}"
 swift build -c release
 
 BIN_PATH="$PROJECT_DIR/.build/release/MacHinge"

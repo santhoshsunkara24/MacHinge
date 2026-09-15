@@ -27,7 +27,7 @@ let package = Package(
             dependencies: ["LidSensorKit"],
             path: "Sources/MacHinge",
             resources: [
-                .process("Metal/Shaders.metal")
+                .copy("Metal/Shaders.metal")
             ]
         ),
         .executableTarget(

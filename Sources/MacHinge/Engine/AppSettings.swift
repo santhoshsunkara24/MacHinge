@@ -103,7 +103,7 @@ public final class AppSettings: ObservableObject {
     }
 
     public func updateSystemAppearance() {
-        NSApp.appearance = appAppearance.nsAppearance
+        NSApp?.appearance = appAppearance.nsAppearance
     }
 
     @Published public var hasCompletedOnboarding: Bool {
