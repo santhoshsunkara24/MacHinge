@@ -31,13 +31,13 @@ half4 hingeGlass(float2 position, texture2d<half> layer, float4 bounds, float pr
     if (fullAngle < 1e-5f) return half4(layer.sample(linearSampler, (position) / bounds.zw).rgb, 1.0h);
     // Delayed, wider curtain: never extinguish the desktop. At full closure
     // the top retains 40% transmission and the bottom retains even more.
-    float curtainProgress = smoothstep(0.20f, 1.0f, clamp(progress, 0.0f, 1.0f));
+    float curtainProgress = smoothstep(0.02f, 1.0f, clamp(progress, 0.0f, 1.0f));
     float feather = 0.22f;
     float edge = mix(-feather, 0.90f, curtainProgress);
     float curtain = 1.0f - smoothstep(edge - feather, edge + feather, p.y / size.y);
     float visibility = 1.0f - min(0.60f * darknessStrength, 0.80f) * curtain;
     // Ease optical scattering smoothly near the reference pose.
-    float opticalStrength = smoothstep(0.0f, 1.5f / 90.0f, progress);
+    float opticalStrength = smoothstep(0.0f, 0.03f, progress);
     float distance = size.y - p.y;
     // World coordinates: the desktop remains on z=0 at the 90-degree position.
     // Only the physical glass rotates about (y=height, z=0). For each glass
@@ -59,8 +59,8 @@ half4 hingeGlass(float2 position, texture2d<half> layer, float4 bounds, float pr
     float separation = distance * sin(fullAngle);
     // A narrow contact band remains optically clear; scattering increases smoothly
     // with glass separation. Cap the footprint to avoid sparse, ghosted large kernels.
-    float contact = smoothstep(size.y * 0.035f, size.y * 0.20f, distance);
-    float scatter = separation * 0.070f * contact * opticalStrength * blurStrength;
+    float contact = smoothstep(size.y * 0.02f, size.y * 0.15f, distance);
+    float scatter = separation * 0.080f * contact * opticalStrength * blurStrength;
     // Smooth saturation retains a changing slope instead of abruptly hitting a cap.
     float radius = scatter / sqrt(1.0f + (scatter / 36.0f) * (scatter / 36.0f));
     // Projection is sampled once. The following two passes supply the blur.
@@ -77,12 +77,12 @@ half4 hingeGaussian(float2 position, texture2d<half> layer,
     float2 size = bounds.zw;
     float2 p = position - bounds.xy;
     float distance = size.y - p.y;
-    float contact = smoothstep(size.y * 0.035f, size.y * 0.20f, distance);
-    float optical = smoothstep(0.0f, 1.5f / 90.0f, progress);
+    float contact = smoothstep(size.y * 0.02f, size.y * 0.15f, distance);
+    float optical = smoothstep(0.0f, 0.03f, progress);
     float scatter = distance * sin(clamp(progress, 0.0f, 1.0f) * M_PI_F * 0.5f)
-                  * 0.070f * contact * optical * blurStrength;
+                  * 0.080f * contact * optical * blurStrength;
     float radius = scatter / sqrt(1.0f + (scatter / 36.0f) * (scatter / 36.0f));
-    if (radius < 0.35f) return half4(layer.sample(linearSampler, (position) / bounds.zw).rgb, 1);
+    if (radius < 0.10f) return half4(layer.sample(linearSampler, (position) / bounds.zw).rgb, 1);
     float sigma = max(radius / 2.44948974f, 0.15f);
     float inverseVariance = 0.5f / (sigma * sigma);
     float3 sum = float3(layer.sample(linearSampler, (position) / bounds.zw).rgb);
@@ -116,8 +116,8 @@ half4 hingeChromatic(float2 position, texture2d<half> layer,
     float2 size = max(bounds.zw, float2(1.0f));
     float2 p = position - bounds.xy;
     float heightFromHinge = clamp((size.y - p.y) / size.y, 0.0f, 1.0f);
-    float contact = smoothstep(0.035f, 0.20f, heightFromHinge);
-    float onset = smoothstep(0.0f, 2.5f / 90.0f, closing);
+    float contact = smoothstep(0.02f, 0.15f, heightFromHinge);
+    float onset = smoothstep(0.0f, 0.04f, closing);
     float amount = min(size.y * 0.009f, 10.0f) * clamp(strength, 0.0f, 1.0f)
                  * sin(closing * M_PI_F * 0.5f) * onset * contact
                  * pow(heightFromHinge, 1.35f);
@@ -245,8 +245,8 @@ fragment float4 duoFoldFragmentShader(
 
     if (uniforms.effectStyle > 1.5) {
         // MAGNETIC LENS DISTORTION & CHROMATIC GRAVITATIONAL WARP
-        float lensProg = smoothstep(0.12, 1.0, p);
-        float lensTiming = pow(lensProg, 1.25);
+        float lensProg = clamp(p, 0.0, 1.0);
+        float lensTiming = pow(lensProg, 0.95);
 
         float2 pole = float2(0.5, 1.05);
         float2 toPole = sourceUV - pole;
@@ -288,8 +288,8 @@ fragment float4 duoFoldFragmentShader(
     // LUMINOUS WAKE & FOLD GLOW
     float3 glowLayer = float3(0.0);
     if (uniforms.effectStyle > 0.5 && uniforms.effectStyle < 1.5) {
-        float glowProg = smoothstep(0.12, 1.0, p);
-        float glowTiming = pow(glowProg, 1.35);
+        float glowProg = clamp(p, 0.0, 1.0);
+        float glowTiming = pow(glowProg, 0.95);
 
         float floodBloom = glowTiming * 1.6;
         float flowPosition = 1.0 - (0.55 * p);
@@ -303,8 +303,8 @@ fragment float4 duoFoldFragmentShader(
         float3 pureWhite = float3(1.0, 1.0, 1.0);
         glowLayer = pureWhite * totalWhiteRadiance;
     } else if (uniforms.effectStyle > 1.5) {
-        float lensProg = smoothstep(0.12, 1.0, p);
-        float lensTiming = pow(lensProg, 1.25);
+        float lensProg = clamp(p, 0.0, 1.0);
+        float lensTiming = pow(lensProg, 0.95);
         float magneticHalo = pow(max(0.0, 1.0 - edgeDist * 3.0), 2.0) * lensTiming * 0.55;
         glowLayer = float3(0.25, 0.55, 1.0) * magneticHalo * uniforms.glowIntensity;
     }

@@ -219,7 +219,8 @@ public final class AnimationController: ObservableObject {
 
         switch settings.transitionCurve {
         case .smoothstep:
-            return rawX * rawX * (3.0 - 2.0 * rawX)
+            // S-curve with a responsive gradient so the fold transition is immediately observable past the threshold
+            return 0.30 * rawX + 0.70 * (rawX * rawX * (3.0 - 2.0 * rawX))
         case .easeInOut:
             return 0.5 * (1.0 - cos(.pi * rawX))
         case .power14:

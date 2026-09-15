@@ -45,10 +45,10 @@ public enum VisualEffectStyle: String, CaseIterable, Identifiable, Codable {
 }
 
 public enum ViewingAnglePreset: String, CaseIterable, Identifiable, Codable {
-    case standard80     = "80° — Standard (Starts at 80°)"
+    case comfortable105 = "105° — Comfortable (Default)"
+    case standard80     = "80° — Standard"
     case upright90      = "90° — Upright"
     case balanced100    = "100° — Balanced"
-    case comfortable105 = "105° — Comfortable"
     case moreOpen110    = "110° — More Open"
     case custom         = "Custom — Set My Own"
 
@@ -56,10 +56,10 @@ public enum ViewingAnglePreset: String, CaseIterable, Identifiable, Codable {
 
     public var angleValue: Double? {
         switch self {
+        case .comfortable105: return 105.0
         case .standard80:     return 80.0
         case .upright90:      return 90.0
         case .balanced100:    return 100.0
-        case .comfortable105: return 105.0
         case .moreOpen110:    return 110.0
         case .custom:         return nil
         }
@@ -193,25 +193,25 @@ public final class AppSettings: ObservableObject {
         let savedModifiers = defaults.object(forKey: kHotkeyModifiers) != nil ? UInt32(defaults.integer(forKey: kHotkeyModifiers)) : HotkeyCombination.defaultHotkey.carbonModifiers
         self.hotkeyCombination = HotkeyCombination(keyCode: savedKeyCode, carbonModifiers: savedModifiers)
         
-        let savedPresetStr = defaults.string(forKey: kPreset) ?? ViewingAnglePreset.standard80.rawValue
-        self.preset = ViewingAnglePreset(rawValue: savedPresetStr) ?? .standard80
+        let savedPresetStr = defaults.string(forKey: kPreset) ?? ViewingAnglePreset.comfortable105.rawValue
+        self.preset = ViewingAnglePreset(rawValue: savedPresetStr) ?? .comfortable105
 
         if let savedCustom = defaults.object(forKey: kCustomAngle) as? Double {
             self.customPreferredAngle = savedCustom
         } else {
-            self.customPreferredAngle = 80.0
+            self.customPreferredAngle = 105.0
         }
 
         let rawEndpoint = defaults.object(forKey: kClosedEndpoint) != nil ? defaults.double(forKey: kClosedEndpoint) : 25.0
         self.closedEndpointAngle = rawEndpoint
-        self.deadbandDegrees = 0.0 // Starts exactly at 80.0°
+        self.deadbandDegrees = 0.0 // Starts exactly at preferred - 18.0°
         self.animationIntensity = defaults.object(forKey: kIntensity) != nil ? defaults.double(forKey: kIntensity) : 1.0
 
         let savedCurveStr = defaults.string(forKey: kCurve) ?? TransitionCurve.smoothstep.rawValue
         self.transitionCurve = TransitionCurve(rawValue: savedCurveStr) ?? .smoothstep
 
-        let savedStyleStr = defaults.string(forKey: kEffectStyle) ?? VisualEffectStyle.luminousGlow.rawValue
-        self.visualEffectStyle = VisualEffectStyle(rawValue: savedStyleStr) ?? .luminousGlow
+        let savedStyleStr = defaults.string(forKey: kEffectStyle) ?? VisualEffectStyle.frostedGlass.rawValue
+        self.visualEffectStyle = VisualEffectStyle(rawValue: savedStyleStr) ?? .frostedGlass
         self.glowIntensity = defaults.object(forKey: kGlowIntensity) != nil ? defaults.double(forKey: kGlowIntensity) : 1.0
 
         self.launchAtLogin = defaults.bool(forKey: kLaunchAtLogin)
@@ -226,7 +226,7 @@ public final class AppSettings: ObservableObject {
     }
 
     public func resetEffectSettings() {
-        self.visualEffectStyle = .luminousGlow
+        self.visualEffectStyle = .frostedGlass
         self.glowIntensity = 1.0
         self.animationIntensity = 1.0
         self.closedEndpointAngle = 25.0
@@ -238,10 +238,10 @@ public final class AppSettings: ObservableObject {
         self.appAppearance = .system
         self.isHotkeyEnabled = true
         self.hotkeyCombination = .defaultHotkey
-        self.preset = .standard80
-        self.visualEffectStyle = .luminousGlow
+        self.preset = .comfortable105
+        self.visualEffectStyle = .frostedGlass
         self.glowIntensity = 1.0
-        self.customPreferredAngle = 80.0
+        self.customPreferredAngle = 105.0
         self.closedEndpointAngle = 25.0
         self.deadbandDegrees = 0.0
         self.animationIntensity = 1.0
