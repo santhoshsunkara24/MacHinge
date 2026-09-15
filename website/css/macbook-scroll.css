@@ -357,11 +357,10 @@
   pointer-events: none;
 }
 
-/* Effect 2: Duo Effect (Physical Optical Depth-of-Field Glass) */
-/* Metal: Stationary desktop raycast + hinge contact clear zone + progressive optical defocus */
-#effect-glass .lock-time,
-#effect-glass .lock-date {
-  filter: blur(calc(var(--glass-blur, 0px) * 0.38));
+/* Effect 2: Duo Effect */
+/* Metal: DuoHinge fixed desktop raycasting + bottom contact clear zone + separable Gaussian */
+#effect-glass .screen-lock-ui {
+  filter: blur(calc(var(--glass-blur, 0px) * 0.42));
   transition: filter 0.08s ease-out;
 }
 

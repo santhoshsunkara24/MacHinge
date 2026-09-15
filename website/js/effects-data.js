@@ -39,7 +39,7 @@ export const effectsData = [
     shaderDetails: [
       "Fixed desktop plane raycast projection from stationary eye viewpoint",
       "Hinge contact clear zone protecting bottom 3.5%–20% (Dock in focus)",
-      "17-tap Golden-Angle Poisson Disk bokeh kernel for optical defocus",
+      "35-tap separable bilinear Gaussian filter for smooth optical scatter",
       "Radial chromatic dispersion and soft transmission curtain"
     ],
     videoSrc: null,
