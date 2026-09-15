@@ -436,33 +436,42 @@
         <div class="developer-note-grid">
           <!-- Left Column: macOS Warning Screenshot Presentation -->
           <div class="note-visual-card">
-            <div class="dialog-screenshot-frame">
-              <img src="assets/screenshots/macos-gatekeeper-warning.png" alt="macOS Gatekeeper Warning Alert" class="dialog-screenshot-img" loading="lazy">
+            <div class="gatekeeper-screens-stack">
+              <!-- Step 1: Dialog Prompt -->
+              <div class="dialog-screenshot-frame gatekeeper-dialog-frame">
+                <img src="assets/screenshots/gatekeeper-not-opened-dialog.png" alt="macOS Gatekeeper 'MacHinge Not Opened' Warning Alert" class="dialog-screenshot-img" loading="lazy">
+              </div>
+              <!-- Step 2: System Settings Window -->
+              <div class="dialog-screenshot-frame gatekeeper-settings-frame">
+                <img src="assets/screenshots/gatekeeper-privacy-security.png" alt="macOS System Settings Privacy &amp; Security Open Anyway" class="dialog-screenshot-img" loading="lazy">
+              </div>
             </div>
-            <p class="note-screenshot-caption">The standard macOS prompt when opening an un-notarized app</p>
+            <p class="note-screenshot-caption">1. First-launch alert &bull; 2. Click "Open Anyway" in Privacy &amp; Security</p>
           </div>
 
-          <!-- Right Column: The Real Story & 2-Click Fix -->
+          <!-- Right Column: The Real Story & Instructions -->
           <div class="note-text-card">
             <div class="note-block">
               <h3 class="note-block-title">The Real Story</h3>
               <p class="note-block-text">
-                When you first launch MacHinge, macOS Gatekeeper may show a warning saying Apple cannot check it for malicious software. That’s because Apple requires an active <strong>$99/year developer membership</strong> to notarize apps. As a solo indie developer building free &amp; open-source software in my spare time, I haven’t paid the annual fee yet!
+                When you first launch MacHinge, macOS Gatekeeper shows a prompt stating Apple could not verify the application. That’s because Apple requires an active <strong>$99/year developer membership</strong> to notarize apps. As a solo indie developer building free &amp; open-source software in my spare time, I haven’t paid the annual fee yet!
               </p>
             </div>
 
             <div class="note-block">
               <h3 class="note-block-title">100% Safe &amp; Open Source</h3>
               <p class="note-block-text">
-                MacHinge is completely open-source under the MIT license. There is <strong>zero telemetry, zero analytics, and zero network calls</strong>. You can inspect and build every line of code directly on GitHub.
+                MacHinge is completely open-source under the MIT license. There is <strong>zero telemetry, zero analytics, and zero network calls</strong>. You can inspect, audit, and build every single line of code directly on GitHub.
               </p>
             </div>
 
             <div class="note-block note-instructions-box">
-              <h3 class="note-block-title">How to open in 2 clicks:</h3>
+              <h3 class="note-block-title">How to open on macOS:</h3>
               <ol class="note-steps-list">
-                <li>Right-click (or Control-click) <code>MacHinge.app</code> in your Applications folder.</li>
-                <li>Click <strong>Open</strong> in the menu, then click <strong>Open</strong> again on the prompt. (Or head to <em>System Settings &rarr; Privacy &amp; Security</em> and click <em>Open Anyway</em>).</li>
+                <li>When the warning popup appears on first launch, click <strong>Done</strong>.</li>
+                <li>Open <strong>System Settings</strong> on your Mac and navigate to <strong>Privacy &amp; Security</strong>.</li>
+                <li>Scroll down to the <em>Security</em> section and click <strong>Open Anyway</strong> next to <em>“MacHinge” was blocked to protect your Mac</em>.</li>
+                <li>Authenticate with your Touch ID or password to launch MacHinge.</li>
               </ol>
             </div>
           </div>
