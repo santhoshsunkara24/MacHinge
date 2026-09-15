@@ -144,7 +144,7 @@ public final class AppSettings: ObservableObject {
     }
 
     public var effectStartAngle: Double {
-        return effectivePreferredAngle - 30.0
+        return effectivePreferredAngle - 18.0
     }
 
     public var closingTriggerAngle: Double {
