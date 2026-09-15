@@ -51,3 +51,4 @@ Release/MacHinge.app/
 *.provisionprofile
 *.mobileprovision
 .vercel
+.env*
