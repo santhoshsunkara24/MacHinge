@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   if (HERO_VIDEO_CONFIG.videoSrc) {
-    // Render real HTML5 video player with Apple-grade presentation
+    // Render real HTML5 video player with Apple-grade presentation (always on loop, no overlay controls)
     container.innerHTML = `
       <div class="video-player-frame">
         <video 
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
           muted 
           loop 
           playsinline 
-          controls 
           preload="auto"
           poster="${HERO_VIDEO_CONFIG.posterSrc || ''}"
           class="hero-video-element"
@@ -33,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </video>
       </div>
     `;
+    const video = container.querySelector('video');
+    if (video) {
+      video.play().catch(() => {});
+    }
   } else {
     // Render Apple-style minimalist placeholder
     container.innerHTML = `
